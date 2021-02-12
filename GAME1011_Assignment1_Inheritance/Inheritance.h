@@ -5,32 +5,25 @@
 
 using  namespace std;
 
-enum Stream {Netflix,Hulu,HBO, TV};
-enum GameDevice{PC, PlayStation, XBOX, ROCK};
-
 class  Person
 {
 
-private:
+protected:
 	string name;
 	int age;
-public:
-	Person()
-	{
-		setName("");
-		setAge(0);
-	}
-	Person(string name, int age)
+
+	string pNames[9] = { "John","Mike","Jenny","Mahmut","Chen","Maria","Angela","Morgan","Kenny" };
+	
+	Person(int name, int age)
 	{
 		setName(name);
 		setAge(age);
 	}
-	~Person()
+public:
+
+	void setName(int name)
 	{
-	}
-	void setName(string name)
-	{
-		this->name = name;
+		this->name = pNames[name];
 	}
 	string getName()
 	{
@@ -44,42 +37,43 @@ public:
 	{
 		return age;
 	}
+	virtual string displayInfo() = 0;
+	virtual int getHours() = 0;
 	
 };
 
-class Student : Person
+class Student : public Person
 {
-private:
+protected:
 	string college;
 	string program;
 	int semester;
-public:
-	Student()
-	{
-		setCollege("");
-		setProgram("");
-		setSemester(0);
-	}
-	Student(string sName,int age, string college, string program, int semester) :Person(sName,age)
+
+	string programs[4] = { "Architecture","Medical","Computer Science","Art" };
+	string colleges[4] = { "George Brown College","Greendale Community College","Gotham Villian College" };
+	
+	Student(int sName, int age, int college, int program, int semester) :Person(sName, age)
 	{
 		setCollege(college);
 		setProgram(program);
 		setSemester(semester);
 	}
+public:
+
 	~Student()
 	{
 	}
-	void setCollege(string college)
+	void setCollege(int college)
 	{
-		this->college = college;
+		this->college = colleges[college];
 	}
 	string getCollege()
 	{
 		return college;
 	}
-	void setProgram(string program)
+	void setProgram(int program)
 	{
-		this->program = program;
+		this->program = programs[program];
 	}
 	string getProgram()
 	{
@@ -94,20 +88,18 @@ public:
 		return semester;
 	}
 	
+
+
 };
 
-class NonGamingStudent : Student
+class NonGamingStudent : public Student
 {
 private:
-	Stream streaming;
+	
+	string streaming;
 	int hours;
 public:
-	NonGamingStudent()
-	{
-		setStream(TV);
-		setHours(0);
-	}
-	NonGamingStudent(string sName, int age, string college, string program, int semester,Stream streaming,int hours)
+	NonGamingStudent(int sName, int age, int college, int program, int semester,string streaming,int hours)
 					:Student(sName,age,college,program,semester)
 	{
 		setStream(streaming);
@@ -116,11 +108,11 @@ public:
 	~NonGamingStudent()
 	{
 	}
-	void setStream(Stream streaming)
+	virtual void setStream(string streaming)
 	{
 		this->streaming = streaming;
 	}
-	Stream getStream()
+	string getStream()
 	{
 		return streaming;
 	}
@@ -132,34 +124,36 @@ public:
 	{
 		return hours;
 	}
+	virtual string displayInfo()
+	{
+		return getStream();
+	}
 };
 
-class GamingStudent : Student
+class GamingStudent : public Student
 {
 private:
-	GameDevice device;
+	
+	string device;
 	int hours;
 public:
-	GamingStudent()
-	{
-		setDevice(ROCK);
-		setHours(0);
-	}
-	GamingStudent(string sName, int age, string college, string program, int semester, GameDevice device, int hours)
+
+	GamingStudent(int sName, int age, int college, int program, int semester, string device, int hours)
 				:Student(sName, age, college, program, semester)
 	{
 		setDevice(device);
 		setHours(hours);
+		
 	}
 	~GamingStudent()
 	{
 
 	}
-	void setDevice(GameDevice device)
+	void setDevice(string device)
 	{
 		this->device = device;
 	}
-	GameDevice getDevice()
+	string getDevice()
 	{
 		return device;
 	}
@@ -171,7 +165,10 @@ public:
 	{
 		return hours;
 	}
-	
+	virtual string displayInfo()
+	{
+		return getDevice();
+	}
 };
 
 #endif
